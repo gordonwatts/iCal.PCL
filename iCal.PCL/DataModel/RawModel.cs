@@ -8,16 +8,16 @@ namespace iCal.PCL.DataModel
         /// <summary>
         /// The properties in the current item
         /// </summary>
-        public Dictionary<string, string> Properties { get; private set; }
+        public Dictionary<string, RawContentLineInfo> ContentLine { get; private set; }
 
         /// <summary>
-        /// Get the property of this particular name
+        /// Get the value a particular content line
         /// </summary>
         /// <param name="pName"></param>
         /// <returns></returns>
         public string this[string pName]
         {
-            get { return Properties[pName]; }
+            get { return ContentLine[pName].Value; }
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace iCal.PCL.DataModel
 
         public RawModel()
         {
-            Properties = new Dictionary<string, string>();
+            ContentLine = new Dictionary<string, RawContentLineInfo>();
             SubBlocks = new Dictionary<string, RawModel[]>();
         }
 
@@ -51,9 +51,11 @@ namespace iCal.PCL.DataModel
         /// </summary>
         /// <param name="p1"></param>
         /// <param name="p2"></param>
-        internal void AddProperty(string key, string value)
+        internal RawContentLineInfo AddProperty(string key)
         {
-            Properties[key] = value;
+            var r = new RawContentLineInfo();
+            ContentLine[key] = r;
+            return r;
         }
 
         /// <summary>

@@ -9,11 +9,12 @@ namespace iCal.PCL.Serialization
     static class SerializationUtils
     {
         /// <summary>
-        /// Given input lines, return them with continuations removed
+        /// Given input lines, return them with continuations removed (unfolding) and ignore
+        /// blank lines (they will kill off any continuations).
         /// </summary>
         /// <param name="sourceLines"></param>
         /// <returns></returns>
-        public static IEnumerable<string> NormalizeLines(this IEnumerable<string> sourceLines)
+        public static IEnumerable<string> UnfoldLines(this IEnumerable<string> sourceLines)
         {
             foreach (var line in sourceLines)
             {
@@ -27,7 +28,7 @@ namespace iCal.PCL.Serialization
         /// </summary>
         /// <param name="line"></param>
         /// <returns></returns>
-        public static Tuple<string, string> ParseAsiCalTuple(this string line)
+        public static Tuple<string, string> ParseAsICalContentLine(this string line)
         {
             var idx = line.IndexOf(":");
             if (idx < 0)

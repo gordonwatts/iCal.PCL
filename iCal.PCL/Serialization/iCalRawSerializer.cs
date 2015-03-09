@@ -20,9 +20,9 @@ namespace iCal.PCL.Serialization
         {
             var stack = new Stack<RawModel>();
             RawModel current = null;
-            foreach (var line in lines.NormalizeLines())
+            foreach (var line in lines.UnfoldLines())
             {
-                var t = line.ParseAsiCalTuple();
+                var t = line.ParseAsICalContentLine();
                 if (t.Item1 == "BEGIN")
                 {
                     var r = new RawModel() { Name = t.Item2 };
@@ -42,7 +42,8 @@ namespace iCal.PCL.Serialization
                 else
                 {
                     (current == null).ThrowiCalError("iCal Key/Value pair outside block");
-                    current.AddProperty(t.Item1, t.Item2);
+                    var cl = current.AddProperty(t.Item1);
+                    cl.Value = t.Item2;
                 }
             }
 
