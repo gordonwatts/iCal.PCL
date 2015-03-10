@@ -59,6 +59,10 @@ namespace iCal.PCL.Serialization
                 yield return bld.ToString();
         }
 
+        #region Content Line Parser
+        // This uses Sprache - the RFC 2445 is resonably complex. It could be if there is a lot of parsing to be
+        // done this should be replaced with something more efficient.
+
         /// <summary>
         ///     name               = x-name / iana-token
         ///     iana-token         = 1*(ALPHA / DIGIT / "-")
@@ -142,6 +146,8 @@ namespace iCal.PCL.Serialization
 
             return Tuple.Create(line.Substring(0, idx).Trim(), line.Substring(idx + 1).Trim());
         }
+
+        #endregion
 
         /// <summary>
         /// Short hand to help with throwing errors when we find something wrong.
