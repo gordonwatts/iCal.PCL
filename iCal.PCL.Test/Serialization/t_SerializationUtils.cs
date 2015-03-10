@@ -28,6 +28,20 @@ namespace iCal.PCL.Test.Serialization
             Assert.AreEqual(1, r.Length);
             Assert.AreEqual("SUMMARY: This is a test of this thing.", r[0]);
         }
+
+        [TestMethod]
+        public void MultipleNormalLines()
+        {
+            var lines = TestUtils.FromParameterList(
+                "first: this is",
+                "second: no way",
+                "third: freak",
+                "fourth: dude"
+                );
+            var r = lines.UnfoldLines().ToArray();
+            Assert.AreEqual(4, r.Length);
+            Assert.AreEqual("third: freak", r[2]);
+        }
 #endif
     }
 }

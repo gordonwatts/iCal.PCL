@@ -46,6 +46,7 @@ namespace iCal.PCL.Serialization
                     {
                         var r = bld.ToString();
                         bld.Clear();
+                        bld.Append(line);
                         yield return r;
                     }
                 }
