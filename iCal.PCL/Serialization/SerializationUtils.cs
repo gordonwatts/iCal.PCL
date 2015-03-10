@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iCal.PCL.DataModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -57,17 +58,48 @@ namespace iCal.PCL.Serialization
         }
 
         /// <summary>
-        /// Split a line in two, by the colon.
+        /// Parse a content line.
         /// </summary>
-        /// <param name="line"></param>
-        /// <returns></returns>
-        public static Tuple<string, string> ParseAsICalContentLine(this string line)
+        /// <param name="line">String of the content line</param>
+        /// <returns>The name and the rest of the content line</returns>
+        /// <remarks>
+        /// From RFC 2445:
+        ///     contentline        = name *(";" param ) ":" value CRLF
+        ///     name               = x-name / iana-token
+        ///     iana-token         = 1*(ALPHA / DIGIT / "-")
+        ///     x-name             = "X-" [vendorid "-"] 1*(ALPHA / DIGIT / "-")
+        ///     param              = param-name "=" param-value
+        ///                          *("," param-value)
+        ///     param-name         = iana-token / x-token
+        ///     param-value        = paramtext / quoted-string
+        ///     paramtext          = *SAFE-CHAR
+        ///     value              = *VALUE-CHAR
+        ///     quoted-string      = DQUOTE *QSAFE-CHAR DQUOTE
+        ///     QSAFE-CHAR         = Any character except CTLs and DQUOTE
+        ///     SAFE-CHAR          = Any character except CTLs, DQUOTE, ";", ":", ","
+        ///     VALUE-CHAR         = Any textual character
+        /// </remarks>
+        public static Tuple<string, RawContentLineInfo> ParseAsICalContentLine(this string line)
         {
             var idx = line.IndexOf(":");
             if (idx < 0)
                 throw new ArgumentException("Line does not contain a colon");
 
-            return Tuple.Create(line.Substring(0, idx), line.Substring(idx + 1));
+            return Tuple.Create(line.Substring(0, idx).Trim(), new RawContentLineInfo() { Value = line.Substring(idx + 1).Trim() });
+        }
+
+        /// <summary>
+        /// Do a very simple split around the standard single line.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        public static Tuple<string, string> SplitiCalLine(this string line)
+        {
+            var idx = line.IndexOf(":");
+            if (idx < 0)
+                throw new ArgumentException("Line does not contain a colon");
+
+            return Tuple.Create(line.Substring(0, idx).Trim(), line.Substring(idx + 1).Trim());
         }
 
         /// <summary>

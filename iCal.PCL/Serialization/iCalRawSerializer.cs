@@ -22,7 +22,7 @@ namespace iCal.PCL.Serialization
             RawModel current = null;
             foreach (var line in lines.UnfoldLines())
             {
-                var t = line.ParseAsICalContentLine();
+                var t = line.SplitiCalLine();
                 if (t.Item1 == "BEGIN")
                 {
                     var r = new RawModel() { Name = t.Item2 };
@@ -42,8 +42,7 @@ namespace iCal.PCL.Serialization
                 else
                 {
                     (current == null).ThrowiCalError("iCal Key/Value pair outside block");
-                    var cl = current.AddProperty(t.Item1);
-                    cl.Value = t.Item2;
+                    current.AddProperty(t.Item1, t.Item2);
                 }
             }
 
