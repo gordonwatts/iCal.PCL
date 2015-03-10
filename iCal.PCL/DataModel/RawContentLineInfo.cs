@@ -1,125 +1,49 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace iCal.PCL.DataModel
 {
     /// <summary>
-    /// Contains the data that appears after a parameter name on a iCal content line
-    /// when parsing a complex (parameter possible) line.
+    /// Contains the information from a single line. This includes:
+    ///  - The name of the line (e.g. BEGIN or SUMMARY). This is always upper case.
+    ///  - The list of parameters and values that appear before the ":". These are upper case except for
+    ///    when they are quoted.
+    ///  - The line after the ":", untouched.
     /// </summary>
-    public class RawContentLineInfo : IDictionary<string, string[]>
+    public class RawContentLineInfo : Dictionary<string, string[]>
     {
         /// <summary>
-        /// Hold onto any parameter names
+        /// The name for the content line
         /// </summary>
-        private Dictionary<string, string[]> _parameters = null;
+        public string Name { get; set; }
 
         /// <summary>
-        /// Return the value of a parameter
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public string[] this[string key]
-        {
-            get
-            {
-                if (_parameters == null)
-                    throw new KeyNotFoundException(key);
-                return _parameters[key];
-            }
-            set
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// The value of the parameter
+        /// THe remainder of the line - the value of the content line.
         /// </summary>
         public string Value { get; set; }
 
+        public RawContentLineInfo()
+        {
+
+        }
+
         /// <summary>
-        /// Add a new parameter
+        /// Generate from the raw information
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="name"></param>
+        /// <param name="props"></param>
         /// <param name="value"></param>
-        public void Add(string key, string[] value)
+        public RawContentLineInfo(string name, IEnumerable<Tuple<string, string[]>> props, string value)
         {
-            if (_parameters == null)
+            Name = name;
+            Value = value;
+            if (props != null)
             {
-                _parameters = new Dictionary<string, string[]>();
+                foreach (var item in props)
+                {
+                    Add(item.Item1, item.Item2);
+                }
             }
-            _parameters[key] = value;
-        }
-
-
-        public bool ContainsKey(string key)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ICollection<string> Keys
-        {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        public bool Remove(string key)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool TryGetValue(string key, out string[] value)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ICollection<string[]> Values
-        {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        public void Add(KeyValuePair<string, string[]> item)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Clear()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool Contains(KeyValuePair<string, string[]> item)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void CopyTo(KeyValuePair<string, string[]>[] array, int arrayIndex)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public int Count
-        {
-            get { throw new System.NotImplementedException(); }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
-
-        public bool Remove(KeyValuePair<string, string[]> item)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IEnumerator<KeyValuePair<string, string[]>> GetEnumerator()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
