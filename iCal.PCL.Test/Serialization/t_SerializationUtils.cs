@@ -30,6 +30,18 @@ namespace iCal.PCL.Test.Serialization
         }
 
         [TestMethod]
+        public void Outlook2007FoldedLines()
+        {
+            var lines = TestUtils.FromParameterList(
+                "first: this is",
+                "\t the second line"
+                );
+            var r = lines.UnfoldLines().ToArray();
+            Assert.AreEqual(1, r.Length);
+            Assert.AreEqual("first: this is the second line", r[0]);
+        }
+
+        [TestMethod]
         public void MultipleNormalLines()
         {
             var lines = TestUtils.FromParameterList(

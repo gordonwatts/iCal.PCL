@@ -38,7 +38,7 @@ namespace iCal.PCL.Serialization
                 else
                 {
                     // If it starts with a space, then it is a continuation character
-                    if (line[0] == ' ')
+                    if (line[0] == ' ' || line[0] == '\t')
                     {
                         bld.Append(line.Substring(1));
                     }
