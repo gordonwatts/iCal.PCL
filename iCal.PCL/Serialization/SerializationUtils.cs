@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace iCal.PCL.Serialization
 {
@@ -16,11 +17,42 @@ namespace iCal.PCL.Serialization
         /// <returns></returns>
         public static IEnumerable<string> UnfoldLines(this IEnumerable<string> sourceLines)
         {
+            StringBuilder bld = new StringBuilder();
             foreach (var line in sourceLines)
             {
-                if (!string.IsNullOrWhiteSpace(line))
-                    yield return line;
+                // If we have a blank line, we always finish off what we are looking at.
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    if (bld.Length > 0)
+                    {
+                        var r = bld.ToString();
+                        bld.Clear();
+                        yield return r;
+                    }
+                }
+                else if (bld.Length == 0)
+                {
+                    // Always stash the first line
+                    bld.Append(line);
+                }
+                else
+                {
+                    // If it starts with a space, then it is a continuation character
+                    if (line[0] == ' ')
+                    {
+                        bld.Append(line.Substring(1));
+                    }
+                    else
+                    {
+                        var r = bld.ToString();
+                        bld.Clear();
+                        yield return r;
+                    }
+                }
             }
+
+            if (bld.Length > 0)
+                yield return bld.ToString();
         }
 
         /// <summary>
