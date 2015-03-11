@@ -1,4 +1,6 @@
 ﻿
+using iCal.PCL.DataModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace iCal.PCL.Serialization
@@ -20,7 +22,41 @@ namespace iCal.PCL.Serialization
             if (rawData == null || rawData.SubBlocks.Count == 0)
                 return Enumerable.Empty<object>();
 
-            return new object[0];
+            return rawData.SubBlocks.Select(binfo => TranslateBlock(binfo.Key, binfo.Value)).Where(x => x != null);
+        }
+
+        /// <summary>
+        /// Translagors for each event block type
+        /// </summary>
+        private static Dictionary<string, Func<RawModel, object>> _translators = new Dictionary<string, Func<RawModel, object>>()
+        {
+            {"VEVENT", MakeVEvent}
+        };
+
+        /// <summary>
+        /// Driver to find the proper translator for a particular object type
+        /// </summary>
+        /// <param name="iCalObjectName"></param>
+        /// <param name="rawModel"></param>
+        /// <returns></returns>
+        private static object TranslateBlock(string iCalObjectName, DataModel.RawModel[] rawModel)
+        {
+            if (!_translators.ContainsKey(iCalObjectName))
+                return null;
+            return _translators[iCalObjectName];
+        }
+
+        /// <summary>
+        /// Given a block that is a VEvent, do the translation.
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <returns></returns>
+        private static object MakeVEvent(RawModel arg)
+        {
+            return new iCalVEvent()
+            {
+                Summary = arg.GetPropValueWithDefault("SUMMARY", "")
+            };
         }
     }
 }

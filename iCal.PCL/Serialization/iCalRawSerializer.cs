@@ -22,18 +22,18 @@ namespace iCal.PCL.Serialization
             RawModel current = null;
             foreach (var line in lines.UnfoldLines())
             {
-                var t = line.SplitiCalLine();
-                if (t.Item1 == "BEGIN")
+                var t = line.ParseAsICalContentLine();
+                if (t.Name == "BEGIN")
                 {
-                    var r = new RawModel() { Name = t.Item2 };
+                    var r = new RawModel() { Name = t.Value };
                     stack.Push(current);
                     if (current != null)
                         current.AddBlock(r);
                     current = r;
                 }
-                else if (t.Item1 == "END")
+                else if (t.Name == "END")
                 {
-                    (t.Item2 != current.Name).ThrowiCalError("Opening ('{0}') and closing ('{1}') blocks do not match", current.Name, t.Item2);
+                    (t.Value != current.Name).ThrowiCalError("Opening ('{0}') and closing ('{1}') blocks do not match", current.Name, t.Value);
                     // Note that the first push we do will be a null - so the check here may look funny!
                     if (stack.Count == 1)
                         return current;
@@ -42,7 +42,7 @@ namespace iCal.PCL.Serialization
                 else
                 {
                     (current == null).ThrowiCalError("iCal Key/Value pair outside block");
-                    current.AddProperty(t.Item1, t.Item2);
+                    current.AddProperty(t.Name, t);
                 }
             }
 

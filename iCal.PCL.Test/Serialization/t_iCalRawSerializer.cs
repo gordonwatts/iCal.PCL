@@ -33,12 +33,12 @@ namespace iCal.PCL.Test.Serialization
         {
             var r = iCalRawSerializer.Deserialize(new FileInfo("Event1.ics").AsLines());
             Assert.IsNotNull(r);
-            Assert.AreEqual("2.0", r["VERSION"]);
+            Assert.AreEqual("2.0", r["VERSION"].Value);
 
             var bs = r.SubBlocks["VEVENT"];
             Assert.AreEqual(1, bs.Length);
             var b = bs[0];
-            Assert.AreEqual("Test event", b["SUMMARY"]);
+            Assert.AreEqual("Test event", b["SUMMARY"].Value);
         }
     }
 }
