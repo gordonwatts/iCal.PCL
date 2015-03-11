@@ -70,13 +70,13 @@ namespace iCal.PCL.Serialization
         /// </summary>
         static readonly Parser<string> ParseCLName =
             from s in (Parse.LetterOrDigit.Or(Parse.Char('-'))).AtLeastOnce().Text().Token()
-            select s;
+            select s.ToUpper();
 
         ///     paramtext          = *SAFE-CHAR
         ///     SAFE-CHAR          = Any character except CTLs, DQUOTE, ";", ":", ","
         static readonly Parser<string> ParseCLSafeParameterValue =
             from s in Parse.AnyChar.Except(Parse.Chars("\";:,")).AtLeastOnce().Text().Token()
-            select s.Trim();
+            select s.Trim().ToUpper();
 
         ///     quoted-string      = DQUOTE *QSAFE-CHAR DQUOTE
         ///     QSAFE-CHAR         = Any character except CTLs and DQUOTE

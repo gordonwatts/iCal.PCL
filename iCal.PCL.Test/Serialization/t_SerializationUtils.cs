@@ -75,17 +75,34 @@ namespace iCal.PCL.Test.Serialization
 
         #region Content Line Parsing Tests
         [TestMethod]
-        public void SimpleLine()
+        public void SimpleLineLowCase()
         {
             var info = "first: second".ParseAsICalContentLine();
-            Assert.AreEqual("first", info.Name);
+            Assert.AreEqual("FIRST", info.Name);
             Assert.AreEqual("second", info.Value);
         }
+
+        [TestMethod]
+        public void SimpleLineUpCase()
+        {
+            var info = "FIRST: second".ParseAsICalContentLine();
+            Assert.AreEqual("FIRST", info.Name);
+            Assert.AreEqual("second", info.Value);
+        }
+
+        [TestMethod]
+        public void SimpleLineMixedCase()
+        {
+            var info = "FIrST: second".ParseAsICalContentLine();
+            Assert.AreEqual("FIRST", info.Name);
+            Assert.AreEqual("second", info.Value);
+        }
+
         [TestMethod]
         public void SimpleLineWithExtraSpace()
         {
             var info = "first : second".ParseAsICalContentLine();
-            Assert.AreEqual("first", info.Name);
+            Assert.AreEqual("FIRST", info.Name);
             Assert.AreEqual("second", info.Value);
         }
 
@@ -93,83 +110,119 @@ namespace iCal.PCL.Test.Serialization
         public void SimpleLineWithNoValue()
         {
             var info = "first:".ParseAsICalContentLine();
-            Assert.AreEqual("first", info.Name);
+            Assert.AreEqual("FIRST", info.Name);
             Assert.AreEqual("", info.Value);
         }
 
         [TestMethod]
-        public void SingleValueParameter()
+        public void SingleValueParameterLowCase()
         {
             var info = "first; p1=10 : second".ParseAsICalContentLine();
-            Assert.AreEqual("first", info.Name);
+            Assert.AreEqual("FIRST", info.Name);
             Assert.AreEqual("second", info.Value);
             Assert.AreEqual(1, info.Count);
-            Assert.AreEqual("p1", info.Keys.First());
-            Assert.AreEqual(1, info["p1"].Length);
-            Assert.AreEqual("10", info["p1"][0]);
+            Assert.AreEqual("P1", info.Keys.First());
+            Assert.AreEqual(1, info["P1"].Length);
+            Assert.AreEqual("10", info["P1"][0]);
+        }
+
+        [TestMethod]
+        public void SingleValueParameterUpCase()
+        {
+            var info = "first; P1=10 : second".ParseAsICalContentLine();
+            Assert.AreEqual("FIRST", info.Name);
+            Assert.AreEqual("second", info.Value);
+            Assert.AreEqual(1, info.Count);
+            Assert.AreEqual("P1", info.Keys.First());
+            Assert.AreEqual(1, info["P1"].Length);
+            Assert.AreEqual("10", info["P1"][0]);
         }
 
         [TestMethod]
         public void SingleValueParameterQuoted()
         {
             var info = "first; p1= \"10,15\" : second".ParseAsICalContentLine();
-            Assert.AreEqual("first", info.Name);
+            Assert.AreEqual("FIRST", info.Name);
             Assert.AreEqual("second", info.Value);
             Assert.AreEqual(1, info.Count);
-            Assert.AreEqual("p1", info.Keys.First());
-            Assert.AreEqual(1, info["p1"].Length);
-            Assert.AreEqual("10,15", info["p1"][0]);
+            Assert.AreEqual("P1", info.Keys.First());
+            Assert.AreEqual(1, info["P1"].Length);
+            Assert.AreEqual("10,15", info["P1"][0]);
+        }
+
+        [TestMethod]
+        public void SingleValueParameterQuotedCaseMixed()
+        {
+            var info = "first; p1= \"This\" : second".ParseAsICalContentLine();
+            Assert.AreEqual("FIRST", info.Name);
+            Assert.AreEqual("second", info.Value);
+            Assert.AreEqual(1, info.Count);
+            Assert.AreEqual("P1", info.Keys.First());
+            Assert.AreEqual(1, info["P1"].Length);
+            Assert.AreEqual("This", info["P1"][0]);
+        }
+
+        [TestMethod]
+        public void SingleValueParameterUnQuotedCaseMixed()
+        {
+            var info = "first; p1= This : second".ParseAsICalContentLine();
+            Assert.AreEqual("FIRST", info.Name);
+            Assert.AreEqual("second", info.Value);
+            Assert.AreEqual(1, info.Count);
+            Assert.AreEqual("P1", info.Keys.First());
+            Assert.AreEqual(1, info["P1"].Length);
+            Assert.AreEqual("THIS", info["P1"][0]);
         }
 
         [TestMethod]
         public void TwoValueParameter()
         {
             var info = "first; p1=10,15 : second".ParseAsICalContentLine();
-            Assert.AreEqual("first", info.Name);
+            Assert.AreEqual("FIRST", info.Name);
             Assert.AreEqual("second", info.Value);
             Assert.AreEqual(1, info.Count);
-            Assert.AreEqual("p1", info.Keys.First());
-            Assert.AreEqual(2, info["p1"].Length);
-            Assert.AreEqual("10", info["p1"][0]);
-            Assert.AreEqual("15", info["p1"][1]);
+            Assert.AreEqual("P1", info.Keys.First());
+            Assert.AreEqual(2, info["P1"].Length);
+            Assert.AreEqual("10", info["P1"][0]);
+            Assert.AreEqual("15", info["P1"][1]);
         }
 
         [TestMethod]
         public void TwoValueParameterWithSpaces()
         {
             var info = "first; p1 = 10 , 15 : second".ParseAsICalContentLine();
-            Assert.AreEqual("first", info.Name);
+            Assert.AreEqual("FIRST", info.Name);
             Assert.AreEqual("second", info.Value);
             Assert.AreEqual(1, info.Count);
-            Assert.AreEqual("p1", info.Keys.First());
-            Assert.AreEqual(2, info["p1"].Length);
-            Assert.AreEqual("10", info["p1"][0]);
-            Assert.AreEqual("15", info["p1"][1]);
+            Assert.AreEqual("P1", info.Keys.First());
+            Assert.AreEqual(2, info["P1"].Length);
+            Assert.AreEqual("10", info["P1"][0]);
+            Assert.AreEqual("15", info["P1"][1]);
         }
 
         [TestMethod]
         public void TwoValueParameterMixedQuotes()
         {
             var info = "first; p1 = 10 , \"15\" : second".ParseAsICalContentLine();
-            Assert.AreEqual("first", info.Name);
+            Assert.AreEqual("FIRST", info.Name);
             Assert.AreEqual("second", info.Value);
             Assert.AreEqual(1, info.Count);
-            Assert.AreEqual("p1", info.Keys.First());
-            Assert.AreEqual(2, info["p1"].Length);
-            Assert.AreEqual("10", info["p1"][0]);
-            Assert.AreEqual("15", info["p1"][1]);
+            Assert.AreEqual("P1", info.Keys.First());
+            Assert.AreEqual(2, info["P1"].Length);
+            Assert.AreEqual("10", info["P1"][0]);
+            Assert.AreEqual("15", info["P1"][1]);
         }
 
         [TestMethod]
         public void TwoParametersParameter()
         {
             var info = "first; p1=10,15; p2 = \"hi there\" : second".ParseAsICalContentLine();
-            Assert.AreEqual("first", info.Name);
+            Assert.AreEqual("FIRST", info.Name);
             Assert.AreEqual("second", info.Value);
             Assert.AreEqual(2, info.Count);
-            Assert.IsTrue(info.ContainsKey("p2"));
-            Assert.AreEqual(1, info["p2"].Length);
-            Assert.AreEqual("hi there", info["p2"][0]);
+            Assert.IsTrue(info.ContainsKey("P2"));
+            Assert.AreEqual(1, info["P2"].Length);
+            Assert.AreEqual("hi there", info["P2"][0]);
         }
         #endregion
 #endif
