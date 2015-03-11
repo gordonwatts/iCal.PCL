@@ -53,6 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\t_iCalRawSerializer.cs" />
     <Compile Include="Serialization\t_SerializationUtils.cs" />
+    <Compile Include="Serialization\t_iCalSerializer.cs" />
     <Compile Include="TestUtils.cs" />
   </ItemGroup>
   <ItemGroup>
