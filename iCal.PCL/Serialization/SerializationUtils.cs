@@ -159,5 +159,21 @@ namespace iCal.PCL.Serialization
             if (ifTrue)
                 throw new InvalidOperationException(string.Format(message, args));
         }
+
+        /// <summary>
+        /// Parse a RFC 2445 date string. Time will be set to midnight in the local time zone.
+        /// </summary>
+        /// <param name="dateSpec">RFC 2445 date string</param>
+        /// <returns>DateTime structure of the date. Throws if not valid</returns>
+        public static DateTime AsiCalDate(this string dateSpec)
+        {
+            (dateSpec.Length != 8).ThrowiCalError("The date '{0}' is not a valid RFC 2445 iCal date.", dateSpec);
+
+            var year = dateSpec.Substring(0, 4);
+            var month = dateSpec.Substring(4, 2);
+            var day = dateSpec.Substring(6, 2);
+
+            return new DateTime(int.Parse(year), int.Parse(month), int.Parse(day));
+        }
     }
 }

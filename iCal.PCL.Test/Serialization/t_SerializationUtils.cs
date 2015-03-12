@@ -1,5 +1,6 @@
 ﻿using iCal.PCL.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
 
 namespace iCal.PCL.Test.Serialization
@@ -225,6 +226,39 @@ namespace iCal.PCL.Test.Serialization
             Assert.AreEqual("hi there", info["P2"][0]);
         }
         #endregion
+
+        #region Date parsing
+        [TestMethod]
+        public void SimpleDate()
+        {
+            var d = "19970714".AsiCalDate();
+            Assert.AreEqual(1997, d.Year);
+            Assert.AreEqual(7, d.Month);
+            Assert.AreEqual(14, d.Day);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void SimpleDateWrongLength()
+        {
+            var d = "199707144".AsiCalDate();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SimpleDateBadDay()
+        {
+            var d = "19970744".AsiCalDate();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void SimpleDateAlpha()
+        {
+            var d = "199707a4".AsiCalDate();
+        }
+        #endregion
+
 #endif
     }
 }
