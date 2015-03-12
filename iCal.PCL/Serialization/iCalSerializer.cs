@@ -56,9 +56,14 @@ namespace iCal.PCL.Serialization
         {
             return new iCalVEvent()
             {
-                Summary = arg.GetPropValueWithDefault("SUMMARY", ""),
-                UID = arg.GetPropValueWithDefault("UID", ""),
-                Location = arg.GetPropValueWithDefault("LOCATION", ""),
+                Summary = arg.GetPropValueWithDefault("SUMMARY", "").AsiCalText(),
+                UID = arg.GetPropValueWithDefault("UID", "").AsiCalText(),
+                Location = arg.GetPropValueWithDefault("LOCATION", "").AsiCalText(),
+                Description = arg.GetPropValueWithDefault("DESCRIPTION", "").AsiCalText(),
+                DTEnd = arg.GetPropValueWithDefault("DTEND", "").AsiCalDateTime(),
+                DTStart = arg.GetPropValueWithDefault("DTSTART", "").AsiCalDateTime(),
+                URL = arg.GetPropValueWithDefault("URL", "").AsiCalUri(),
+                Properties = arg.ContentLine,
             };
         }
     }

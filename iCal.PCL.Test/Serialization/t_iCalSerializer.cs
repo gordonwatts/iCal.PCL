@@ -12,7 +12,7 @@ namespace iCal.PCL.Test.Serialization
     {
         [TestMethod]
         [DeploymentItem("Serialization/Event1.ics")]
-        public void TestMethod1()
+        public void TestEvent1()
         {
             var r = iCalSerializer.Deserialize(new FileInfo("Event1.ics").AsLines());
             Assert.IsNotNull(r);
@@ -28,6 +28,28 @@ namespace iCal.PCL.Test.Serialization
             Assert.AreEqual(DateTime.Parse("07-18-2006 10:00"), a1.DTStart);
             Assert.AreEqual(DateTime.Parse("07-18-2006 11:00"), a1.DTEnd);
             Assert.AreEqual("20060717T210718Z", a1.Properties["LAST-MODIFIED"].Value);
+            Assert.IsNull(a1.URL);
+        }
+
+        [TestMethod]
+        [DeploymentItem("Serialization/indico1.ics")]
+        public void TestIndico1()
+        {
+            var r = iCalSerializer.Deserialize(new FileInfo("indico1.ics").AsLines());
+            Assert.IsNotNull(r);
+            var all = r.ToArray();
+            Assert.AreEqual(1, all.Length);
+            var a1u = all[0];
+            Assert.IsInstanceOfType(a1u, typeof(iCalVEvent));
+            var a1 = a1u as iCalVEvent;
+
+            Assert.AreEqual("indico-event-371544@cern.ch", a1.UID);
+            Assert.AreEqual("LHCP2015 Steering Group Meeting", a1.Summary);
+            Assert.AreEqual("Other Institutes", a1.Location);
+            Assert.AreEqual("9th LHCP2015 Steering Group Meeting\nPin 0125\n\nhttps://indico.cern.ch/event/371544/", a1.Description);
+            Assert.AreEqual(DateTime.Parse("02-03-2015 16:00:00"), a1.DTStart + TimeZoneInfo.Local.GetUtcOffset(a1.DTStart));
+            Assert.AreEqual(DateTime.Parse("02-03-2015 17:00:00"), a1.DTEnd + TimeZoneInfo.Local.GetUtcOffset(a1.DTEnd));
+            Assert.AreEqual("https://indico.cern.ch/event/371544/", a1.URL.OriginalString);
         }
     }
 }

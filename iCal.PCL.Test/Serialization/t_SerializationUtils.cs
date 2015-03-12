@@ -331,8 +331,51 @@ namespace iCal.PCL.Test.Serialization
             Assert.AreEqual(13, t.Day);
             Assert.AreEqual(0, t.Hour);
         }
+
+        [TestMethod]
+        public void SimpleText()
+        {
+            Assert.AreEqual("hi", "hi".AsiCalText());
+        }
+
+        [TestMethod]
+        public void TextWithNewLineInMiddle()
+        {
+            Assert.AreEqual("hi\nhi", @"hi\nhi".AsiCalText());
+        }
+
+        [TestMethod]
+        public void TextWithNewLineAtStart()
+        {
+            Assert.AreEqual("\nhihi", @"\nhihi".AsiCalText());
+        }
+
+        [TestMethod]
+        public void TextWithNewLineAtEnd()
+        {
+            Assert.AreEqual("hihi\n", @"hihi\n".AsiCalText());
+        }
+
+        [TestMethod]
+        public void TextWithNewLineAllOver()
+        {
+            Assert.AreEqual("\nhi\nhi\n", @"\nhi\nhi\n".AsiCalText());
+        }
         #endregion
 
+        #region Uri's
+        [TestMethod]
+        public void EmptyURI()
+        {
+            Assert.IsNull("".AsiCalUri());
+        }
+
+        [TestMethod]
+        public void GoodURI()
+        {
+            Assert.AreEqual("http://www.nytimes.com", "http://www.nytimes.com".AsiCalUri().OriginalString);
+        }
+        #endregion
 #endif
     }
 }

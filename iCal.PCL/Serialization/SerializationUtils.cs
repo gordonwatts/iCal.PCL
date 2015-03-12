@@ -255,5 +255,68 @@ namespace iCal.PCL.Serialization
 
             return sumTime;
         }
+
+        private static readonly Parser<char> ECharBackslash = Parse.Char('\\').Return('\\');
+        private static readonly Parser<char> ECharSemicolon = Parse.Char(';').Return(';');
+        private static readonly Parser<char> ECharComma = Parse.Char(',').Return(',');
+        private static readonly Parser<char> ECharNewline = Parse.Char('n').Or(Parse.Char('N')).Return('\n');
+
+        private static readonly Parser<char> EscapedSequenceParser =
+            from c in Parse.Char('\\')
+            from r in ECharBackslash.Or(ECharSemicolon).Or(ECharComma).Or(ECharNewline)
+            select r;
+
+        private static readonly Parser<string> EscapedStringSingleSequenceParser =
+            from pre in Parse.AnyChar.Except(Parse.Char('\\')).Many().Text()
+            from escapes in EscapedSequenceParser.Many().Text()
+            select pre + escapes;
+
+        private static readonly Parser<string> EscapedStringParser =
+            from ses in EscapedStringSingleSequenceParser.Many()
+            select Concat(ses);
+
+        /// <summary>
+        /// Contact a sequence of strings together.
+        /// </summary>
+        /// <param name="fragments"></param>
+        /// <returns></returns>
+        private static string Concat(IEnumerable<string> fragments)
+        {
+            var sb = new StringBuilder();
+            foreach (var f in fragments)
+            {
+                sb.Append(f);
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Parse iCal text. There are a number of escaped characters we need to deal with.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// From RFC 2445:
+        ///      ESCAPED-CHAR = "\\" / "\;" / "\," / "\N" / "\n")
+        ///        ; \\ encodes \, \N or \n encodes newline
+        ///        ; \; encodes ;, \, encodes ,
+        ///        
+        /// </remarks>
+        public static string AsiCalText(this string source)
+        {
+            return EscapedStringParser.Parse(source);
+        }
+
+        /// <summary>
+        /// Create a new uri, or null if the uri is empty.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public static Uri AsiCalUri(this string uri)
+        {
+            if (string.IsNullOrWhiteSpace(uri))
+                return null;
+            return new Uri(uri);
+        }
     }
 }
