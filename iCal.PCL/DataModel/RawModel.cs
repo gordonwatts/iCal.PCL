@@ -86,8 +86,8 @@ namespace iCal.PCL.DataModel
         {
             if (!ContentLine.ContainsKey(name))
                 return defaultValue;
-            var cl = ContentLine;
-            return "no";
+            var cl = ContentLine[name];
+            return cl.Value;
         }
     }
 }

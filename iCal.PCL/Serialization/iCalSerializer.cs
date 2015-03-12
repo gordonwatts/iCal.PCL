@@ -22,7 +22,7 @@ namespace iCal.PCL.Serialization
             if (rawData == null || rawData.SubBlocks.Count == 0)
                 return Enumerable.Empty<object>();
 
-            return rawData.SubBlocks.Select(binfo => TranslateBlock(binfo.Key, binfo.Value)).Where(x => x != null);
+            return rawData.SubBlocks.SelectMany(binfo => TranslateBlock(binfo.Key, binfo.Value)).Where(x => x != null);
         }
 
         /// <summary>
@@ -39,11 +39,12 @@ namespace iCal.PCL.Serialization
         /// <param name="iCalObjectName"></param>
         /// <param name="rawModel"></param>
         /// <returns></returns>
-        private static object TranslateBlock(string iCalObjectName, DataModel.RawModel[] rawModel)
+        private static IEnumerable<object> TranslateBlock(string iCalObjectName, DataModel.RawModel[] rawModel)
         {
             if (!_translators.ContainsKey(iCalObjectName))
                 return null;
-            return _translators[iCalObjectName];
+            var translator = _translators[iCalObjectName];
+            return rawModel.Select(rm => translator(rm));
         }
 
         /// <summary>
@@ -55,7 +56,9 @@ namespace iCal.PCL.Serialization
         {
             return new iCalVEvent()
             {
-                Summary = arg.GetPropValueWithDefault("SUMMARY", "")
+                Summary = arg.GetPropValueWithDefault("SUMMARY", ""),
+                UID = arg.GetPropValueWithDefault("UID", ""),
+                Location = arg.GetPropValueWithDefault("LOCATION", ""),
             };
         }
     }

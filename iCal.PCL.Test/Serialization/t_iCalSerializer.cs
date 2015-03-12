@@ -25,8 +25,8 @@ namespace iCal.PCL.Test.Serialization
             Assert.AreEqual("uuid1153170430406", a1.UID);
             Assert.AreEqual("Test event", a1.Summary);
             Assert.AreEqual("Daywest", a1.Location);
-            Assert.AreEqual(DateTime.Parse("18-07-2006 10:00"), a1.DTStart);
-            Assert.AreEqual(DateTime.Parse("18-07-2006 11:00"), a1.DTEnd);
+            Assert.AreEqual(DateTime.Parse("07-18-2006 10:00"), a1.DTStart);
+            Assert.AreEqual(DateTime.Parse("07-18-2006 11:00"), a1.DTEnd);
             Assert.AreEqual("20060717T210718Z", a1.Properties["LAST-MODIFIED"].Value);
         }
     }
