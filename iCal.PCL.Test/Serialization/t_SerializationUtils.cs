@@ -238,7 +238,7 @@ namespace iCal.PCL.Test.Serialization
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(FormatException))]
         public void SimpleDateWrongLength()
         {
             var d = "199707144".AsiCalDate();
@@ -256,6 +256,36 @@ namespace iCal.PCL.Test.Serialization
         public void SimpleDateAlpha()
         {
             var d = "199707a4".AsiCalDate();
+        }
+
+        [TestMethod]
+        public void SimpleLocalTime()
+        {
+            var t = "230001".AsiCalTime(null);
+            Assert.AreEqual(23, t.Hours);
+            Assert.AreEqual(0, t.Minutes);
+            Assert.AreEqual(1, t.Seconds);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void SimpleLocalTimeWrongLength()
+        {
+            var t = "2230001".AsiCalTime(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SimpleLocalTimeBadMinute()
+        {
+            var t = "239901".AsiCalTime(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void SimpleLocalTimeAlpha()
+        {
+            var t = "230a01".AsiCalTime(null);
         }
         #endregion
 

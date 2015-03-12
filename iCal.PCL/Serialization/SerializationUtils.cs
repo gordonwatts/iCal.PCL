@@ -161,19 +161,69 @@ namespace iCal.PCL.Serialization
         }
 
         /// <summary>
+        /// Short hand to help with throwing errors when we find something wrong.
+        /// </summary>
+        /// <param name="ifTrue"></param>
+        /// <param name="message"></param>
+        public static void ThrowiCalError<T>(this bool ifTrue, Func<string, T> makeError, string message, params string[] args)
+            where T : Exception, new()
+        {
+            if (ifTrue)
+            {
+                throw makeError(string.Format(message, args));
+            }
+        }
+
+        /// <summary>
         /// Parse a RFC 2445 date string. Time will be set to midnight in the local time zone.
         /// </summary>
         /// <param name="dateSpec">RFC 2445 date string</param>
         /// <returns>DateTime structure of the date. Throws if not valid</returns>
         public static DateTime AsiCalDate(this string dateSpec)
         {
-            (dateSpec.Length != 8).ThrowiCalError("The date '{0}' is not a valid RFC 2445 iCal date.", dateSpec);
+            (dateSpec.Length != 8).ThrowiCalError(m => new FormatException(m), "The date '{0}' is not a valid RFC 2445 iCal date.", dateSpec);
 
             var year = dateSpec.Substring(0, 4);
             var month = dateSpec.Substring(4, 2);
             var day = dateSpec.Substring(6, 2);
 
             return new DateTime(int.Parse(year), int.Parse(month), int.Parse(day));
+        }
+
+        /// <summary>
+        /// Calculate the offset from midnight that this time represents, in the local time zone.
+        /// This will loose the timezone info that is contained in the iCal
+        /// </summary>
+        /// <param name="timeSpec"></param>
+        /// <param name="pInfo"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// RFC 2445 has three types of date string:
+        ///   1. Local time - this is correctly parsed
+        ///   2. UTC time - this is correctly parsed
+        ///   3. VTIMEZONE time - where the timezone rules are given in the input, and the timezone is named in the property. This is not
+        ///                       parsed, and will be in local time currently.
+        /// </remarks>
+        public static TimeSpan AsiCalTime(this string timeSpec, RawContentLineInfo pInfo)
+        {
+            var isUtc = false;
+            if (timeSpec.EndsWith("Z"))
+            {
+                isUtc = true;
+                timeSpec = timeSpec.Substring(0, timeSpec.Length - 1);
+            }
+
+            (timeSpec.Length != 6).ThrowiCalError(m => new FormatException(m), "The time '{0}' is not a valid RFC 2445 iCal time.", timeSpec);
+
+            var hours = int.Parse(timeSpec.Substring(0, 2));
+            var minutes = int.Parse(timeSpec.Substring(2, 2));
+            var seconds = int.Parse(timeSpec.Substring(4, 2));
+
+            (hours < 0 || hours > 23
+                || minutes < 0 || minutes > 59
+                || seconds < 0 || seconds > 59).ThrowiCalError(m => new ArgumentOutOfRangeException(m), "Time '{0}' has some out of range components.", timeSpec);
+
+            return new TimeSpan(hours, minutes, seconds);
         }
     }
 }
