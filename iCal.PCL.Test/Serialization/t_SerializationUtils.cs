@@ -262,9 +262,10 @@ namespace iCal.PCL.Test.Serialization
         public void SimpleLocalTime()
         {
             var t = "230001".AsiCalTime(null);
-            Assert.AreEqual(23, t.Hours);
-            Assert.AreEqual(0, t.Minutes);
-            Assert.AreEqual(1, t.Seconds);
+            Assert.AreEqual(23, t.Item1.Hours);
+            Assert.AreEqual(0, t.Item1.Minutes);
+            Assert.AreEqual(1, t.Item1.Seconds);
+            Assert.IsFalse(t.Item2);
         }
 
         [TestMethod]
@@ -286,6 +287,18 @@ namespace iCal.PCL.Test.Serialization
         public void SimpleLocalTimeAlpha()
         {
             var t = "230a01".AsiCalTime(null);
+        }
+
+        [TestMethod]
+        public void SimpleLocalTimeUTC()
+        {
+            var t = "100000Z".AsiCalTime(null);
+
+            Assert.AreEqual(0, t.Item1.Minutes);
+            Assert.AreEqual(0, t.Item1.Seconds);
+            Assert.AreEqual(10, t.Item1.Hours);
+            Assert.IsTrue(t.Item2);
+
         }
         #endregion
 

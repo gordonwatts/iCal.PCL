@@ -194,9 +194,9 @@ namespace iCal.PCL.Serialization
         /// Calculate the offset from midnight that this time represents, in the local time zone.
         /// This will loose the timezone info that is contained in the iCal
         /// </summary>
-        /// <param name="timeSpec"></param>
+        /// <param name="timeSpec">String spec of the time</param>
         /// <param name="pInfo"></param>
-        /// <returns></returns>
+        /// <returns>The time the string represents, and if it is in UTC format or not</returns>
         /// <remarks>
         /// RFC 2445 has three types of date string:
         ///   1. Local time - this is correctly parsed
@@ -204,7 +204,7 @@ namespace iCal.PCL.Serialization
         ///   3. VTIMEZONE time - where the timezone rules are given in the input, and the timezone is named in the property. This is not
         ///                       parsed, and will be in local time currently.
         /// </remarks>
-        public static TimeSpan AsiCalTime(this string timeSpec, RawContentLineInfo pInfo)
+        public static Tuple<TimeSpan, bool> AsiCalTime(this string timeSpec, RawContentLineInfo pInfo)
         {
             var isUtc = false;
             if (timeSpec.EndsWith("Z"))
@@ -223,7 +223,7 @@ namespace iCal.PCL.Serialization
                 || minutes < 0 || minutes > 59
                 || seconds < 0 || seconds > 59).ThrowiCalError(m => new ArgumentOutOfRangeException(m), "Time '{0}' has some out of range components.", timeSpec);
 
-            return new TimeSpan(hours, minutes, seconds);
+            return Tuple.Create(new TimeSpan(hours, minutes, seconds), isUtc);
         }
     }
 }
