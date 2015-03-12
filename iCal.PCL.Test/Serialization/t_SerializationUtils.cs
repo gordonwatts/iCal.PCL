@@ -300,6 +300,37 @@ namespace iCal.PCL.Test.Serialization
             Assert.IsTrue(t.Item2);
 
         }
+
+        [TestMethod]
+        public void SimpleLocalDateTime()
+        {
+            var t = "19980118T230000".AsiCalDateTime();
+            Assert.AreEqual(1998, t.Year);
+            Assert.AreEqual(1, t.Month);
+            Assert.AreEqual(18, t.Day);
+            Assert.AreEqual(23, t.Hour);
+            Assert.AreEqual(0, t.Minute);
+            Assert.AreEqual(0, t.Second);
+        }
+
+        [TestMethod]
+        public void SimpleLocalDateTimeUtc()
+        {
+            var t = "20150313T000400Z".AsiCalDateTime();
+
+            // We need to get the UTC offset to figure out how this is going to affect things, as it is right on th edge, and add it back.
+            // Then it should match the numbers above.
+
+            t += TimeZoneInfo.Local.GetUtcOffset(t);
+
+            Assert.AreEqual(2015, t.Year);
+            Assert.AreEqual(3, t.Month);
+            Assert.AreEqual(4, t.Minute);
+            Assert.AreEqual(0, t.Second);
+
+            Assert.AreEqual(13, t.Day);
+            Assert.AreEqual(0, t.Hour);
+        }
         #endregion
 
 #endif

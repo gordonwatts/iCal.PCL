@@ -192,7 +192,8 @@ namespace iCal.PCL.Serialization
 
         /// <summary>
         /// Calculate the offset from midnight that this time represents, in the local time zone.
-        /// This will loose the timezone info that is contained in the iCal
+        /// This will loose the timezone info that is contained in the iCal. This will not convert
+        /// the time - you need a date to do the conversion. It will only give you time zone info.
         /// </summary>
         /// <param name="timeSpec">String spec of the time</param>
         /// <param name="pInfo"></param>
@@ -203,6 +204,7 @@ namespace iCal.PCL.Serialization
         ///   2. UTC time - this is correctly parsed
         ///   3. VTIMEZONE time - where the timezone rules are given in the input, and the timezone is named in the property. This is not
         ///                       parsed, and will be in local time currently.
+        /// When #3 is implemented, the return (bool) should be changed to deal with it.
         /// </remarks>
         public static Tuple<TimeSpan, bool> AsiCalTime(this string timeSpec, RawContentLineInfo pInfo)
         {
@@ -224,6 +226,34 @@ namespace iCal.PCL.Serialization
                 || seconds < 0 || seconds > 59).ThrowiCalError(m => new ArgumentOutOfRangeException(m), "Time '{0}' has some out of range components.", timeSpec);
 
             return Tuple.Create(new TimeSpan(hours, minutes, seconds), isUtc);
+        }
+
+        /// <summary>
+        /// Return a DateTime from an iCal date/time string, with the time conversion done. Currently supports only:
+        /// 1. Local time
+        /// 2. UTC time
+        /// THe third format, which has time zone infomration included in the ics file, is not supported.
+        /// </summary>
+        /// <param name="dateTimeSpec"></param>
+        /// <param name="pinfo"></param>
+        /// <returns>The local time of a time given in the file</returns>
+        public static DateTime AsiCalDateTime(this string dateTimeSpec)
+        {
+            var tIndex = dateTimeSpec.IndexOf('T');
+            (tIndex < 0).ThrowiCalError(m => new FormatException(m), "The date-time '{0}' was not a valid RFC 2445 iCal date-time", dateTimeSpec);
+
+            var dt = dateTimeSpec.Substring(0, tIndex).AsiCalDate();
+            var ts = dateTimeSpec.Substring(tIndex + 1).AsiCalTime(null);
+
+            // If this is a UTC guy, then we have some issues
+            var sumTime = dt + ts.Item1;
+            if (ts.Item2)
+            {
+                var utcOffset = TimeZoneInfo.Local.GetUtcOffset(sumTime);
+                sumTime -= utcOffset;
+            }
+
+            return sumTime;
         }
     }
 }
