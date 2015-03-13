@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("iCal.PCL")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Light weight and very simple iCal parser. Parses only VEVENT objects.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Gordon Watts")]
 [assembly: AssemblyProduct("iCal.PCL")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]

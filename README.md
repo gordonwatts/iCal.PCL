@@ -22,3 +22,15 @@ DDay.iCal is rather full featured, especially when it comes to manipulating even
 iCal events, and reocurring items. This is meant to be simple.
 
 NOTE: Some of my test input .ics files were taken from DDay.iCal. Many thanks to their work for that.
+
+Development
+===========
+
+1. VS 2013, Build.
+2. Note that in debug mode many more tests are availible (friend assembly)
+3. nuget pack .\iCal.PCL.csproj -Prop Configuration=Release from the iCal.PCL directory.
+
+License
+=======
+
+MIT: http://choosealicense.com/licenses/mit/
