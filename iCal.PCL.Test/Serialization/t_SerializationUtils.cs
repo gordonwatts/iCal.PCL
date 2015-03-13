@@ -56,6 +56,21 @@ namespace iCal.PCL.Test.Serialization
             Assert.AreEqual("third: freak", r[2]);
         }
 
+        [TestMethod]
+        public void MultiFoldedLinesWithBlanks()
+        {
+            var lines = TestUtils.FromParameterList(
+                "first: lien is",
+                " long",
+                "    ",
+                "    ",
+                " here"
+                );
+            var r = lines.UnfoldLines().ToArray();
+            Assert.AreEqual(1, r.Length);
+            Assert.AreEqual("first: lien islong      here", r[0]);
+        }
+
         #region Line Splitter
         [TestMethod]
         public void SimpleLineSplit()

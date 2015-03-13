@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//CERN//INDICO//EN
+BEGIN:VEVENT
+SUMMARY:Radiation from Relativistic Electrons in Periodic Structures "RREP
+ S-15"
+DTSTART;VALUE=DATE-TIME:20150304T033000Z
+DTEND;VALUE=DATE-TIME:20150308T145000Z
+DTSTAMP;VALUE=DATE-TIME:20150305T220309Z
+UID:indico-event-378549@cern.ch
+DESCRIPTION:Welcome to the «RREPS-15» Symposium!\n\n  The XI Internati
+ onal Symposium «Radiation from Relativistic Electrons in Periodic Structu
+ res» will be held in Saint Petersburg\, Russian Federation\, September 6-
+ 11\, 2015\, and is organized by Saint-Petersburg State University and Toms
+ k Polytechnic University\n\nThe Symposium will focus on the following topi
+ cs:\n\nGeneral Aspects of Physical Phenomena and Processes Associated with
+  Electromagnetic Radiation\n	Transition Radiation\n	Parametric X-Radiation
+ \n	Diffraction Radiation\, Smith-Purcell Effect\n	Coherent Bremsstrahlung 
+ and Channeling Radiation\n	Monochromatic X- and Gamma Beams Produced at El
+ ectron Accelerators\n	Processes with Crystalline Targets\n \n\n  We hop
+ e the Symposium “RREPS-15” that will be held in Saint Petersburg will 
+ be as fruitful as the previous symposiums.\n\n  Co-chairmen of\n			 \n	
+ 		A.P. Potylitsyn\n		  the Organizing Committee\n			 \n			A.V. Tyukhtin
+ \n		\n\nhttps://indico.cern.ch/event/378549/
+LOCATION:
+URL:https://indico.cern.ch/event/378549/
+END:VEVENT
+END:VCALENDAR

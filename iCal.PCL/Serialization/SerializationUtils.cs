@@ -24,7 +24,8 @@ namespace iCal.PCL.Serialization
             foreach (var line in sourceLines)
             {
                 // If we have a blank line, we always finish off what we are looking at.
-                if (string.IsNullOrWhiteSpace(line))
+                // White space is important as it can indicate a continuation or similar.
+                if (line == null || line.Length == 0)
                 {
                     if (bld.Length > 0)
                     {
