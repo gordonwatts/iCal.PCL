@@ -5,7 +5,7 @@ namespace iCal.PCL.Serialization
     /// <summary>
     /// Some exception has been thrown. The inner exception contains the actual error.
     /// </summary>
-    class iCalDeserializationException : Exception
+    public class iCalDeserializationException : Exception
     {
         /// <summary>
         /// Returns the parse text
