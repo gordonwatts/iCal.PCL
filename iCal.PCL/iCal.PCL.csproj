@@ -38,6 +38,7 @@
     <Compile Include="DataModel\RawContentLineInfo.cs" />
     <Compile Include="DataModel\RawModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\iCalDeserializationException.cs" />
     <Compile Include="Serialization\iCalRawSerializer.cs" />
     <Compile Include="Serialization\iCalSerializer.cs" />
     <Compile Include="Serialization\SerializationUtils.cs" />

@@ -131,7 +131,15 @@ namespace iCal.PCL.Serialization
         /// </remarks>
         public static RawContentLineInfo ParseAsICalContentLine(this string line)
         {
-            return ParseRawContentLineInfo.Parse(line);
+            try
+            {
+                return ParseRawContentLineInfo.Parse(line);
+            }
+            catch (Exception e)
+            {
+                // Attempt to include a litte more in the exception.
+                throw new iCalDeserializationException(e.Message, e, line);
+            }
         }
 
         /// <summary>
