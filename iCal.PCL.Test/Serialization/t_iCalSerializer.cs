@@ -32,6 +32,27 @@ namespace iCal.PCL.Test.Serialization
         }
 
         [TestMethod]
+        [DeploymentItem("Serialization/EventWithVTimezone.ics")]
+        public void TestEventWithVTimezone()
+        {
+            var r = iCalSerializer.Deserialize(new FileInfo("EventWithVTimezone.ics").AsLines());
+            Assert.IsNotNull(r);
+            var all = r.ToArray();
+            Assert.AreEqual(1, all.Length);
+            var a1u = all[0];
+            Assert.IsInstanceOfType(a1u, typeof(iCalVEvent));
+            var a1 = a1u as iCalVEvent;
+
+            Assert.AreEqual("Stud.IP-SEM-62e7f2f8b6b69b30959278f8924b9adf@", a1.UID);
+            Assert.AreEqual("Objektorientierte Programmierung (Java), Uebung, Gr 4", a1.Summary);
+            Assert.AreEqual("L 103", a1.Location);
+            Assert.AreEqual(DateTime.Parse("04-27-2015 9:45", System.Globalization.CultureInfo.InvariantCulture), a1.DTStart);
+            Assert.AreEqual(DateTime.Parse("04-27-2015 11:15", System.Globalization.CultureInfo.InvariantCulture), a1.DTEnd);
+            Assert.AreEqual("20150327T070256Z", a1.Properties["LAST-MODIFIED"].Value);
+            Assert.IsNull(a1.URL);
+        }
+
+        [TestMethod]
         [DeploymentItem("Serialization/indico1.ics")]
         public void TestIndico1()
         {

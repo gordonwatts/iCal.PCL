@@ -66,6 +66,9 @@
     <Content Include="Serialization\1l12.ics">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Serialization\EventWithVTimezone.ics">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Serialization\Event1.ics">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
