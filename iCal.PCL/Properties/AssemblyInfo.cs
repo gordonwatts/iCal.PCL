@@ -30,5 +30,5 @@ using System.Resources;
 // Allow testing of some internals, which
 // just makes tests and authoring easier.
 #if DEBUG
-[assembly: InternalsVisibleTo("iCal.PCL.Test")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("iCal.PCL.Test")]
 #endif
