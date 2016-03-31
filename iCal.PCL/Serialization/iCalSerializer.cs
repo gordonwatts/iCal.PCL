@@ -22,7 +22,7 @@ namespace iCal.PCL.Serialization
             if (rawData == null || rawData.SubBlocks.Count == 0)
                 return Enumerable.Empty<object>();
 
-            return rawData.SubBlocks.SelectMany(binfo => TranslateBlock(binfo.Key, binfo.Value)).Where(x => x != null);
+            return rawData.SubBlocks.Select(binfo => TranslateBlock(binfo.Key, binfo.Value)).Where(x => x != null).SelectMany(x=> x);
         }
 
         /// <summary>
