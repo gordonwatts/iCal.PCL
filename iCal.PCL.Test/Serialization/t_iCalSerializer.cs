@@ -25,8 +25,8 @@ namespace iCal.PCL.Test.Serialization
             Assert.AreEqual("uuid1153170430406", a1.UID);
             Assert.AreEqual("Test event", a1.Summary);
             Assert.AreEqual("Daywest", a1.Location);
-            Assert.AreEqual(DateTime.Parse("07-18-2006 10:00"), a1.DTStart);
-            Assert.AreEqual(DateTime.Parse("07-18-2006 11:00"), a1.DTEnd);
+            Assert.AreEqual(DateTime.Parse("07-18-2006 10:00", System.Globalization.CultureInfo.InvariantCulture), a1.DTStart);
+            Assert.AreEqual(DateTime.Parse("07-18-2006 11:00", System.Globalization.CultureInfo.InvariantCulture), a1.DTEnd);
             Assert.AreEqual("20060717T210718Z", a1.Properties["LAST-MODIFIED"].Value);
             Assert.IsNull(a1.URL);
         }
@@ -47,8 +47,8 @@ namespace iCal.PCL.Test.Serialization
             Assert.AreEqual("LHCP2015 Steering Group Meeting", a1.Summary);
             Assert.AreEqual("Other Institutes", a1.Location);
             Assert.AreEqual("9th LHCP2015 Steering Group Meeting\nPin 0125\n\nhttps://indico.cern.ch/event/371544/", a1.Description);
-            Assert.AreEqual(DateTime.Parse("02-03-2015 16:00:00"), a1.DTStart + TimeZoneInfo.Local.GetUtcOffset(a1.DTStart));
-            Assert.AreEqual(DateTime.Parse("02-03-2015 17:00:00"), a1.DTEnd + TimeZoneInfo.Local.GetUtcOffset(a1.DTEnd));
+            Assert.AreEqual(DateTime.Parse("02-03-2015 16:00:00", System.Globalization.CultureInfo.InvariantCulture), a1.DTStart + TimeZoneInfo.Local.GetUtcOffset(a1.DTStart));
+            Assert.AreEqual(DateTime.Parse("02-03-2015 17:00:00", System.Globalization.CultureInfo.InvariantCulture), a1.DTEnd + TimeZoneInfo.Local.GetUtcOffset(a1.DTEnd));
             Assert.AreEqual("https://indico.cern.ch/event/371544/", a1.URL.OriginalString);
         }
 
@@ -68,8 +68,8 @@ namespace iCal.PCL.Test.Serialization
             Assert.AreEqual("LHCP2015 Steering Group Meeting", a1.Summary);
             Assert.AreEqual("Other Institutes", a1.Location);
             Assert.AreEqual("9th LHCP2015 Steering Group Meeting\nPin 0125\n\nhttps://indico.cern.ch/event/371544/", a1.Description);
-            Assert.AreEqual(DateTime.Parse("02-03-2015 16:00:00"), a1.DTStart + TimeZoneInfo.Local.GetUtcOffset(a1.DTStart));
-            Assert.AreEqual(DateTime.Parse("02-03-2015 17:00:00"), a1.DTEnd + TimeZoneInfo.Local.GetUtcOffset(a1.DTEnd));
+            Assert.AreEqual(DateTime.Parse("02-03-2015 16:00:00", System.Globalization.CultureInfo.InvariantCulture), a1.DTStart + TimeZoneInfo.Local.GetUtcOffset(a1.DTStart));
+            Assert.AreEqual(DateTime.Parse("02-03-2015 17:00:00", System.Globalization.CultureInfo.InvariantCulture), a1.DTEnd + TimeZoneInfo.Local.GetUtcOffset(a1.DTEnd));
             Assert.AreEqual("https://indico.cern.ch/event/371544/", a1.URL.OriginalString);
         }
 
