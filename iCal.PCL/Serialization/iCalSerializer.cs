@@ -26,8 +26,11 @@ namespace iCal.PCL.Serialization
         }
 
         /// <summary>
-        /// Translagors for each event block type
+        /// Translators for each event block type
         /// </summary>
+        /// <remarks>
+        /// The implied contract is that the function cannot return null. If it gets called, it must return some sort of object.
+        /// </remarks>
         private static Dictionary<string, Func<RawModel, object>> _translators = new Dictionary<string, Func<RawModel, object>>()
         {
             {"VEVENT", MakeVEvent}

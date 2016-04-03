@@ -2,15 +2,15 @@
 <package >
   <metadata>
     <id>iCal.PCL</id>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <title>iCal.PCL</title>
     <authors>Gordon Watts</authors>
     <owners>Gordon Watts</owners>
     <licenseUrl>http://choosealicense.com/licenses/mit/</licenseUrl>
     <projectUrl>https://github.com/gordonwatts/iCal.PCL/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Light weight and very simple iCal parser. Parses only VEVENT objects.</description>
-    <releaseNotes>Custom error to propagate bad line through to callers</releaseNotes>
+    <description>Light weight and very simple iCal parser. Parses only VEVENT objects; ignores other in iCal data.</description>
+    <releaseNotes>Fixes to deal with VEVENT objects in the source file (ignored)</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>iCal Portable PCL</tags>
   </metadata>
