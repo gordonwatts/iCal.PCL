@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>iCal.PCL</id>
-    <version>1.0.5</version>
-    <title>iCal.PCL</title>
+    <id>iCal.PCL.WPSL</id>
+    <version>1.0.6</version>
+    <title>iCal.PCL.WPSL</title>
     <authors>Gordon Watts</authors>
     <owners>Gordon Watts</owners>
     <licenseUrl>http://choosealicense.com/licenses/mit/</licenseUrl>
-    <projectUrl>https://github.com/gordonwatts/iCal.PCL/</projectUrl>
+    <projectUrl>https://github.com/LokiMidgard/iCal.PCL/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Light weight and very simple iCal parser. Parses only VEVENT objects; ignores other in iCal data.</description>
-    <releaseNotes>Fixes to deal with VEVENT objects in the source file (ignored)</releaseNotes>
+    <description>Light weight and very simple iCal parser. Parses only VEVENT objects; ignores other in iCal data. This is a PCL that works with WPSL</description>
+    <releaseNotes>Changed to a Version of CGenT.Sprache that was build in Release mode</releaseNotes>
     <copyright>Copyright 2015</copyright>
-    <tags>iCal Portable PCL</tags>
+    <tags>iCal Portable PCL WPSL</tags>
   </metadata>
 </package>
