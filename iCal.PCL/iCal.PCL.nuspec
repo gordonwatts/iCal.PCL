@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>iCal.PCL.WPSL</id>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <title>iCal.PCL.WPSL</title>
     <authors>Gordon Watts</authors>
     <owners>Gordon Watts</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/LokiMidgard/iCal.PCL/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Light weight and very simple iCal parser. Parses only VEVENT objects; ignores other in iCal data. This is a PCL that works with WPSL</description>
-    <releaseNotes>Added ability to be used in WPSL</releaseNotes>
+    <releaseNotes>Changed to a Version of CGenT.Sprache that was build in Release mode</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>iCal Portable PCL WPSL</tags>
   </metadata>
