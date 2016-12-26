@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>iCal.PCL</id>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <title>iCal.PCL</title>
     <authors>Gordon Watts</authors>
     <owners>Gordon Watts</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/gordonwatts/iCal.PCL/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Light weight and very simple iCal parser. Parses only VEVENT objects; ignores other in iCal data.</description>
-    <releaseNotes>Fixes to deal with VEVENT objects in the source file (ignored)</releaseNotes>
+    <releaseNotes>Added new platforms (like SL5)</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>iCal Portable PCL</tags>
   </metadata>

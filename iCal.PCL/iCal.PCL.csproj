@@ -46,6 +46,7 @@
   <ItemGroup>
     <None Include="iCal.PCL.nuspec" />
     <None Include="packages.config" />
+    <None Include="PushPackage.ps1" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CGenT.Sprache, Version=1.0.0.0, Culture=neutral, PublicKeyToken=21cab3f7ca4a6a0f, processorArchitecture=MSIL">
