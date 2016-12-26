@@ -48,8 +48,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="CGenT.Sprache">
-      <HintPath>..\packages\CGenT.Sprache.1.0\lib\portable-net40+sl50+win+wpa81+wp80\CGenT.Sprache.dll</HintPath>
+    <Reference Include="CGenT.Sprache, Version=1.0.0.0, Culture=neutral, PublicKeyToken=21cab3f7ca4a6a0f, processorArchitecture=MSIL">
+      <HintPath>..\packages\CGenT.Sprache.Release.1.0.0.1\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\CGenT.Sprache.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
